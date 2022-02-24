@@ -4,3 +4,4 @@ access.log
 Procfile
 server.cert
 server.key
+package.json
