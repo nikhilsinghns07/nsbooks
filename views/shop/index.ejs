@@ -1,0 +1,66 @@
+<%- include('../includes/head.ejs') %>
+    
+</head>
+
+<body>
+    <%- include('../includes/navigation.ejs') %>
+    <main>
+        <h1>
+            NS
+            <span class="highlight">Books</span>
+            <br />
+            <span class="highlight">BYNS</span>
+          </h1><br>
+        <% if (prods.length > 0) { %>
+            <div class="grid">
+                <% for (let product of prods) { %>
+                    <article class="card product-item">
+                        <header class="card__header">
+                            <h1 class="product__title"><%= product.title %></h1>
+                        </header>
+                  
+                        <div class="card__content">
+                            <p class="product__description"><%= product.description %></p>
+                        </div>
+                        <div class="card__actions">
+                            <a href="/products/<%= product._id %>" class="btn">Details</a>
+                        </div>
+                    </article>
+                <% } %>
+            </div>
+            <%- include('../includes/pagination.ejs', {currentPage: currentPage, nextPage: nextPage, previousPage: previousPage, lastPage: lastPage, hasNextPage: hasNextPage, hasPreviousPage: hasPreviousPage}) %>
+        <% } else { %>
+            <h1>No Books Found!</h1>
+        <% } %>
+        <h6> <span class="highlight">About</span>  </h6>
+
+    <div class="about"> 
+        Welcome <br>
+        Here You Can download books which are available for free  on this website. <br> 
+        I don't own these books. 
+        Thanks for Visiting.  <br>
+        If you want to contribute to this open library you can Simply upload a book in pdf format <a href="/admin/add-product">here.</a> You must be LoggedIn in order to upload a book.<br>
+
+        Anyone can reach me @ <a href="mailto:nikhilsinghns01@gmail.com"> <img id="gmail"src="https://cdn.icon-icons.com/icons2/652/PNG/512/gmail_icon-icons.com_59877.png" alt="mail"></a> <br>
+        <a href="https://github.com/nikhilsinghns07"> GitHub</a>  <br>
+        This Website was created for Project Purpose.
+    </div>
+
+    <h6> <span class="highlight">Tools and npm packages used - </span>  </h6>
+        <div class="tools" >
+
+            <ol>
+                <li>ExpressJs</li>
+                <li>Mongoose</li>
+                <li>Javascript</li>
+                <li>EJS</li>
+                <li>CSS3</li>
+                <li>csrf</li>
+                <li>nodemon</li>
+                <li>nodemailer-sendgrid-transport</li>
+                <li>git</li>
+            </ol>
+        </div>
+    
+    </main>
+<%- include('../includes/end.ejs') %>

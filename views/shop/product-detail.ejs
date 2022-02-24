@@ -1,0 +1,26 @@
+<%- include('../includes/head.ejs') %>
+
+    </head>
+
+    <body>
+        <%- include('../includes/navigation.ejs') %>
+        <h1>
+            NS
+            <span class="highlight">Books</span>
+            <br />
+            <span class="highlight">BYNS</span>
+          </h1><br>
+        <main class="product-detail">
+            <h3><%= product.title %></h3>
+            <hr>  
+            <p><%= product.description %></p>
+
+            <a href=" <%= product.imageUrl %>" alt ="<%= product.title %>">
+                <button class="btn" type="button">Download</button>
+            </a>
+        
+            <h6> <span class="highlight">Note : </span>  </h6>
+            <div class="note"> I dont own these.I am not authorized seller of these books.This website was created for project purpose. <br>
+                Contact - <a href="mailto: nikhilsinghns01@gmail.com"> Nikhil Singh</a> </div>
+        </main>
+        <%- include('../includes/end.ejs') %>

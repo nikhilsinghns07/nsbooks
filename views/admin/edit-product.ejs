@@ -1,0 +1,63 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/product.css">
+</head>
+
+<body>
+   <%- include('../includes/navigation.ejs') %>
+   
+    <main>
+        <h1>
+            NS
+            <span class="highlight">Books</span>
+            <br />
+            <span class="highlight">BYNS</span>
+          </h1><br>
+        <% if (errorMessage) { %>
+            <div class="user-message user-message--error"><%= errorMessage %></div>
+        <% } %>
+        <div class ="instructions"> 
+            <h2> Instructions to upload a book</h2> 
+                User Must save book to google drive or any other cloud storage platforms and provide the link in book url field.
+        </div>
+        <form class="product-form" action="/admin/<% if (editing) { %>edit-product<% } else { %>add-product<% } %>" method="POST" enctype="multipart/form-data">
+            <div class="form-control">
+                <label for="title">Title</label>
+                <input 
+                    class="<%= validationErrors.find(e => e.param === 'title') ? 'invalid' : '' %>"
+                    type="text" 
+                    name="title" 
+                    id="title" 
+                    value="<% if (editing || hasError) { %><%= product.title %><% } %>">
+            </div>
+            <div class="form-control">
+                <label for="imageUrl">Book URL</label>
+                <input 
+                    class="<%= validationErrors.find(e => e.param === 'imageUrl') ? 'invalid' : '' %>"
+                    type="text" 
+                    name="imageUrl" 
+                    id="imageUrl" 
+                    value="<% if (editing || hasError) { %><%= product.imageUrl %><% } %>">
+            </div>
+
+            <div class="form-control">
+                <label for="description">Description</label>
+                <textarea 
+                    class="<%= validationErrors.find(e => e.param === 'description') ? 'invalid' : '' %>"
+                    name="description" 
+                    id="description" 
+                    rows="5"><% if (editing || hasError) { %><%= product.description %><% } %></textarea>
+            </div>
+            
+            <% if (editing) { %>
+                <input type="hidden" value="<%= product._id %>" name="productId">
+            <% } %>
+
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button class="btn" type="submit"><% if (editing) { %>Update Book<% } else { %>Add Book<% } %></button>
+        </form>
+        <h6> <span class="highlight">Note : </span>  </h6>
+        <div class="note"> I dont own these.I am not authorized seller of these books.This website was created for project purpose. <br>
+            Contact - <a href="mailto: nikhilsinghns01@gmail.com"> Nikhil Singh</a> </div>
+    </main>
+<%- include('../includes/end.ejs') %>
