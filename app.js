@@ -13,23 +13,20 @@ const multer = require('multer');
 const helmet = require('helmet')
 const compression = require('compression');
 const morgan = require('morgan');
-
 const errorController = require('./controllers/error');
 const shopController = require('./controllers/shop');
 const isAuth = require('./middleware/is-auth');
 const User = require('./models/user');
 
 const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.5xymi.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}`
-
 const app = express();
-
+const port = process.env.PORT || 3000
 const store = new MongoDBStore({
   uri: MONGODB_URI,
   collection: 'sessions'
 });
 
 const csrfProtection = csrf();
-
 const fileStorage = multer.diskStorage({
   destination : (req,file,cb) => {
     cb(null,'books')
@@ -124,5 +121,6 @@ app.use(errorController.get404);
 
 mongoose.connect(MONGODB_URI).then(result => {
     // https.createServer({key: privateKey , cert: certificate},app).listen(process.env.PORT || 3000);
-    app.listen(process.env.PORT || 3000)
-}).catch(err => {console.log(err)});
+  app.listen(port)
+}).then(result => console.log(result))
+.catch(err => {console.log(err)});
