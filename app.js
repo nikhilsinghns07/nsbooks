@@ -22,7 +22,7 @@ const isAuth = require('./middleware/is-auth');
 const User = require('./models/user');
 
 const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.5xymi.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}`
-const client = new MongoClient(MONGODB_URI)
+// const client = new MongoClient(MONGODB_URI)
 
 const app = express();
 const port = process.env.PORT || 3000
