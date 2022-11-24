@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs')
 const https = require('https')
-
+const { MongoClient } = require('mongodb');
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -19,6 +19,8 @@ const isAuth = require('./middleware/is-auth');
 const User = require('./models/user');
 
 const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.5xymi.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}`
+const client = new MongoClient(MONGODB_URI)
+
 const app = express();
 const port = process.env.PORT || 3000
 const store = new MongoDBStore({
@@ -119,8 +121,19 @@ app.get('/500', errorController.get500);
 app.use(errorController.get404);
 
 
-mongoose.connect(MONGODB_URI).then(result => {
-    // https.createServer({key: privateKey , cert: certificate},app).listen(process.env.PORT || 3000);
-  app.listen(port)
-}).then(result => console.log(result))
-.catch(err => {console.log(err)});
+// mongoose.connect(MONGODB_URI).then(result => {
+//     // https.createServer({key: privateKey , cert: certificate},app).listen(process.env.PORT || 3000);
+//   app.listen(port)
+// }).then(result => console.log(result))
+// .catch(err => {console.log(err)});
+
+
+client.connect(err => {
+  if(err) {
+    console.log(err)
+    return false;
+    app.listen(port,() => {
+      console.log('Server is running')
+    })
+  }
+})
