@@ -1,10 +1,12 @@
 const path = require('path');
 const fs = require('fs')
 const https = require('https')
-const { MongoClient } = require('mongodb');
+// const { MongoClient } = require('mongodb');
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const csrf = require('csurf');
@@ -13,6 +15,7 @@ const multer = require('multer');
 const helmet = require('helmet')
 const compression = require('compression');
 const morgan = require('morgan');
+
 const errorController = require('./controllers/error');
 const shopController = require('./controllers/shop');
 const isAuth = require('./middleware/is-auth');
@@ -23,6 +26,7 @@ const client = new MongoClient(MONGODB_URI)
 
 const app = express();
 const port = process.env.PORT || 3000
+
 const store = new MongoDBStore({
   uri: MONGODB_URI,
   collection: 'sessions'
@@ -120,6 +124,17 @@ app.get('/500', errorController.get500);
 
 app.use(errorController.get404);
 
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect(MONGODB_URI)
+    console.log('MongoDB connceted');
+  }
+  catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
+}
+
 
 // mongoose.connect(MONGODB_URI).then(result => {
 //     // https.createServer({key: privateKey , cert: certificate},app).listen(process.env.PORT || 3000);
@@ -128,12 +143,18 @@ app.use(errorController.get404);
 // .catch(err => {console.log(err)});
 
 
-client.connect(err => {
-  if(err) {
-    console.log(err)
-    return false;
-    app.listen(port,() => {
-      console.log('Server is running')
-    })
-  }
+// client.connect(err => {
+//   if(err) {
+//     console.log(err)
+//     return false;
+//     app.listen(port,() => {
+//       console.log('Server is running')
+//     })
+//   }
+// })
+
+connectDB().then(() => {
+  app.listen(port,() => {
+    console.log("Server Running")
+  }) 
 })
